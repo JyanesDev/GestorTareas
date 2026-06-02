@@ -1,0 +1,77 @@
+services:
+
+# ─────────────────────────────────────────────────────────────
+  # POSTGRESQL 16
+# ─────────────────────────────────────────────────────────────
+    postgres:
+
+        # Descarga la imagen
+        image: postgres:16-alpine
+        # Nombre al contenedor
+        container_name: gestortareas-postgres
+
+        # Variables de entorno
+        environment:
+            # Nombre de la BD que PostgreSQL crea automaticamente al arrancar
+            POSTGRES_DB: ${POSTGRES_DB}
+            # Administrador de DB
+            POSTGRES_USER: ${POSTGRES_USER}
+            # Password de la BD
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        
+        # Mapeo de puertos - Java se conecta al localhost:5432
+        ports:
+            - "5432:5432"
+        
+        # Persiste los datos de PostgreSQL en mi disco
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+
+        # Reinicio: si el contendor se cae, Docker lo reinicia automaticamente
+        restart: unless-stopped
+
+        # Verificación periodica de que Docker responde
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 10s
+
+  # ─────────────────────────────────────────────────────────────
+  # PGADMIN 4
+  # ─────────────────────────────────────────────────────────────
+  
+  # Interfaz web para administrar PostgreSQL - Accesible en http://localhost:5050
+    pgadmin: 
+        # Imagen oficial pgAdmin 4
+        image: dpage/pgadmin4:latest
+
+        container_name: gestortareas-pgadmin
+
+        environment:
+            # Email y Password para acceder a la interfaz web de pgAdmin
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+
+        ports:
+            # pgAdmin escucha internamente en el peurto 80 y se mapea al 5050 para evitar conflictos
+            - "5050:80"
+
+        # Este servicio espera a el correcto funcionamiento de PostgreSQL antes de arrancar
+        depends_on:
+            postgres:
+                condition: service_healthy
+
+        restart: unless-stopped
+
+    # ─────────────────────────────────────────────────────────────
+    # VOLÚMENES
+    # ─────────────────────────────────────────────────────────────
+    # Volumen nombrado para los datos de PostgreSQL.
+    # Docker gestiona la ubicación real en disco.
+    # Se conserva al hacer "docker compose down".
+    # Se elimina al hacer "docker compose down -v".
+volumes:
+  pgdata:
+        

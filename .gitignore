@@ -1,0 +1,48 @@
+# ═══════════════════════════════════════════════════════════════
+# .gitignore — GestorTareas
+# ═══════════════════════════════════════════════════════════════
+
+# ── Compilados ──────────────────────────────────────────────────
+target/
+*.class
+*.jar
+*.war
+
+# ── IDE: IntelliJ ──────────────────────────────────────────────
+.idea/
+*.iml
+out/
+
+# ── IDE: NetBeans ──────────────────────────────────────────────
+nbproject/private/
+nbactions.xml
+nb-configuration.xml
+build/
+nbbuild/
+nbdist/
+
+# ── IDE: VS Code ───────────────────────────────────────────────
+.vscode/
+
+# ── IDE: Eclipse ───────────────────────────────────────────────
+.project
+.classpath
+.settings/
+
+# ── Sistema operativo ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Maven ──────────────────────────────────────────────────────
+dependency-reduced-pom.xml
+
+# ── Docker (datos locales) ─────────────────────────────────────
+pgdata/
+
+# ── Variables de entorno ───────────────────────────────────────
+.env
+
+# ── Logs ───────────────────────────────────────────────────────
+*.log
+logs/
