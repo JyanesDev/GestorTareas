@@ -108,7 +108,11 @@
     <build>
         <plugins>
 
+feature/fase1-entidad-tarea
+            <!-- Compilador: fijar Java 17 (Cap 0.7) -->
+
             <!-- Compilador: fijar Java 21 (Cap 0.7) -->
+ main
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -156,3 +160,4 @@
     </build>
 
 </project>
+
