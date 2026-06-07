@@ -28,6 +28,7 @@ nbdist/
 .project
 .classpath
 .settings/
+.
 
 # ── Sistema operativo ──────────────────────────────────────────
 .DS_Store
@@ -46,3 +47,4 @@ pgdata/
 # ── Logs ───────────────────────────────────────────────────────
 *.log
 logs/
+/nbproject/
